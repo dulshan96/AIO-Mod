@@ -10,7 +10,7 @@
 #Au3Stripper_Off
 #Au3Stripper_On
 Global $g_sBotVersion = "v7.9.2"
-Global $g_sModVersion = "v4.5.3"
+Global $g_sModVersion = "v4.5.4"
 Opt("MustDeclareVars", 1)
 Global $g_sBotTitle = ""
 Global $g_hFrmBot = 0
@@ -3084,7 +3084,7 @@ Global $g_aiWallsCurrentCount[15] = [-1, -1, -1, -1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 
 Global $g_aiLastGoodWallPos[2] = [-1, -1]
 Global $g_bAutoUpgradeEnabled = False
 Global $g_iTxtSmartMinGold = 150000, $g_iTxtSmartMinElixir = 150000, $g_iTxtSmartMinDark = 1500
-Global $g_iChkUpgradesToIgnore[14] = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
+Global $g_iChkUpgradesToIgnore[35] = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
 Global $g_iChkResourcesToIgnore[3] = [0, 0, 0]
 Global $g_iChkBBSuggestedUpgrades = 0, $g_iChkBBSuggestedUpgradesIgnoreGold = 0, $g_iChkBBSuggestedUpgradesIgnoreElixir = 0, $g_iChkBBSuggestedUpgradesIgnoreHall = 0, $g_iChkBBSuggestedUpgradesIgnoreWall = 0
 Global $g_iChkPlacingNewBuildings = 0
@@ -3338,6 +3338,9 @@ Global $g_iWhatSCIDAccount2Use = 0
 Global $g_bUseStatistics = False
 Global $InternalArea[8][3]
 Global $ExternalArea[8][3]
+Global $g_iChkBBUpgradesToIgnore[28] = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
+Global $g_bChkColorfulAttackLog = 0, $g_bChkBuyGuard = False
+Global $g_hChkColorfulAttackLog = 0, $g_hChkBuyGuard = 0
 Global Const $g_sLibModIconPath = $g_sLibPath & "\ModLibs\AIOMod.dll"
 Global Enum $eIcnModKingGray = 1, $eIcnModKingBlue, $eIcnModKingGreen, $eIcnModKingRed, $eIcnModQueenGray, $eIcnModQueenBlue, $eIcnModQueenGreen, $eIcnModQueenRed, $eIcnModWardenGray, $eIcnModWardenBlue, $eIcnModWardenGreen, $eIcnModWardenRed, $eIcnModLabGray, $eIcnModLabGreen, $eIcnModLabRed, $eIcnModArrowLeft, $eIcnModArrowRight, $eIcnModTrainingP, $eIcnModResourceP, $eIcnModHeroP, $eIcnModClockTowerP, $eIcnModBuilderP, $eIcnModPowerP, $eIcnModChat, $eIcnModRepeat, $eIcnModClan, $eIcnModTarget, $eIcnModSettings, $eIcnModBKingSX, $eIcnModAQueenSX, $eIcnModGWardenSX, $eIcnModDebug, $eIcnModClanHop, $eIcnModPrecise, $eIcnModAccountsS, $eIcnModProfilesS, $eIcnModFarmingS, $eIcnMiscMod, $eIcnSuperXP, $eIcnChatActions, $eIcnHumanization, $eIcnAIOMod, $eIcnDebugMod, $eIcnLabP, $eIcnShop, $eIcnGoldP, $eIcnElixirP, $eIcnDarkP, $eIcnGFTO, $eIcnMisc, $eIcnPrewar
 Global $g_sDateAndTimeMagicItems = ""
@@ -3349,7 +3352,6 @@ Global $g_sDateAndTimeChampion = ""
 Global $g_bDefensesAlive = False, $g_bDefensesMix = True
 Global $g_hChkNoUpgradeInWar = True, $g_bNoUpgradeInWar
 Global $g_hChkProtectInLL, $g_hChkForceProtectLL, $g_bProtectInLL = True, $g_bForceProtectLL = False
-Global $g_hChkRandomDPSFAL, $g_bRandomDPSFAL = True
 Global $g_hChkReturnTimerEnable = 0, $g_hTxtReturnTimer = 0, $g_bReturnTimerEnable = False, $g_iTxtReturnTimer = 5
 Global $g_hChkPriorityLab, $g_hCmbPriorityLab, $g_hLblOnlyUpgrade, $g_hChkPriorityLabTroops, $g_hChkPriorityLabSpells, $g_hChkPriorityLabSieges, $g_bPriorityLab, $g_iCmbPriorityLab, $g_bPriorityLabSpells = True, $g_bPriorityLabTroops = True, $g_bPriorityLabSieges = True
 Global $g_sTxtNotifyDSToken, $g_bNotifyDSEnable, $g_hChkNotifyDSEnable, $g_hLblNotifyTGToken, $g_hLblNotifyDSToken, $g_hTxtNotifyDSToken, $g_sNotifyDSToken, $g_hCmbNotifyMode, $g_iNotifyMode, $g_ahIcnNotifyMode[2]
@@ -3410,8 +3412,8 @@ Global $g_iCmbBBAttack = $g_eBBAttackCSV
 Global $g_hTabBuilderBase = 0, $g_hTabAttack = 0
 Global $g_bChkBBCustomAttack = False
 Global $g_sAttackScrScriptNameBB[3] = ["", "", ""]
-Global $g_bChkUpgradeTroops = False, $g_iCmbBBLaboratory, $g_bChkUpgradeMachine = False
-Global $g_bChkBBUpgradeWalls = False, $g_iCmbBBWallLevel, $g_iTxtBBWallNumber = 0
+Global $g_bChkUpgradeTroops = False, $g_bChkUpgradeMachine = False
+Global $g_bChkBBUpgradeWalls = False, $g_iCmbBBWallLevel, $g_iBBWallNumber = 0
 Global Enum $eBBTroopBarbarian, $eBBTroopArcher, $eBBTroopGiant, $eBBTroopMinion, $eBBTroopBomber, $eBBTroopBabyDragon, $eBBTroopCannon, $eBBTroopNight, $eBBTroopDrop, $eBBTroopPekka, $eBBTroopHogG, $eBBTroopMachine, $eBBTroopCount
 Global $g_bBBDropOrderSet = False
 Global $g_aiCmbBBDropOrder[$eBBTroopCount] = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11]
@@ -3423,6 +3425,13 @@ Global $InternalArea[8][3]
 Global $ExternalArea[8][3]
 Global $g_bOnlyBuilderBase = False
 Global $g_bChkBBGetFromCSV = False, $g_bChkBBGetFromArmy
+Global $g_hChkSmartFarmAndRandomDeploy, $g_bUseSmartFarmAndRandomDeploy = True
+Global $g_hChkSmartFarmAndRandomQuant, $g_bUseSmartFarmAndRandomQuant = False
+Global $g_hCmbSmartFarmSpellsHowManySides, $g_hSmartFarmSpellsEnable, $g_iSmartFarmSpellsHowManySides = 2, $g_bSmartFarmSpellsEnable = True
+Global $g_hChkUseSmartFarmRedLine, $g_bUseSmartFarmRedLine = False
+Global $g_bChkColorfulAttackLog = False, $g_bChkBuyGuard = False
+Global $g_hChkColorfulAttackLog = 0, $g_hChkBuyGuard = 0
+Global $g_bDebugSmartMilk = False, $g_bChkMilkForceDeployHeroes = False, $g_bChkMilkForceAllTroops = False, $g_iMilkStrategyArmy = 0
 Func GetTranslatedParsedText($sText, $var1 = Default, $var2 = Default, $var3 = Default)
 Local $s = StringReplace(StringReplace($sText, "\r\n", @CRLF), "\n", @CRLF)
 If $var1 = Default Then Return $s
@@ -5209,6 +5218,7 @@ ReadConfig_MOD_600_31()
 ReadConfig_MOD_600_35_1()
 ReadConfig_MOD_600_35_2()
 ReadConfig_MOD_Humanization()
+ReadConfig_MOD_SmartMilk()
 EndFunc
 Func ReadConfig_Debug()
 $g_bDebugSetlog = IniRead($g_sProfileConfigPath, "debug", "debugsetlog", 0) = 1 ? True : False
@@ -5317,8 +5327,6 @@ IniReadS($g_bChkCTBoostBlderBz, $g_sProfileConfigPath, "other", "ChkCTBoostBlder
 IniReadS($g_iChkBBSuggestedUpgrades, $g_sProfileConfigPath, "other", "ChkBBSuggestedUpgrades", $g_iChkBBSuggestedUpgrades, "Int")
 IniReadS($g_iChkBBSuggestedUpgradesIgnoreGold, $g_sProfileConfigPath, "other", "ChkBBSuggestedUpgradesIgnoreGold", $g_iChkBBSuggestedUpgradesIgnoreGold, "Int")
 IniReadS($g_iChkBBSuggestedUpgradesIgnoreElixir, $g_sProfileConfigPath, "other", "ChkBBSuggestedUpgradesIgnoreElixir", $g_iChkBBSuggestedUpgradesIgnoreElixir, "Int")
-IniReadS($g_iChkBBSuggestedUpgradesIgnoreHall, $g_sProfileConfigPath, "other", "ChkBBSuggestedUpgradesIgnoreHall", $g_iChkBBSuggestedUpgradesIgnoreHall, "Int")
-IniReadS($g_iChkBBSuggestedUpgradesIgnoreWall, $g_sProfileConfigPath, "other", "ChkBBSuggestedUpgradesIgnoreWall", $g_iChkBBSuggestedUpgradesIgnoreWall, "Int")
 IniReadS($g_iChkPlacingNewBuildings, $g_sProfileConfigPath, "other", "ChkPlacingNewBuildings", $g_iChkPlacingNewBuildings, "Int")
 IniReadS($g_bChkClanGamesAir, $g_sProfileConfigPath, "other", "ChkClanGamesAir", False, "Bool")
 IniReadS($g_bChkClanGamesGround, $g_sProfileConfigPath, "other", "ChkClanGamesGround", False, "Bool")
@@ -5612,7 +5620,7 @@ IniReadS($g_iUpgradeMinDark, $g_sProfileConfigPath, "upgrade", "minupgrdark", 20
 EndFunc
 Func ReadConfig_auto()
 IniReadS($g_bAutoUpgradeEnabled, $g_sProfileConfigPath, "Auto Upgrade", "AutoUpgradeEnabled", False, "Bool")
-For $i = 0 To 13
+For $i = 0 To UBound($g_iChkUpgradesToIgnore) - 1
 IniReadS($g_iChkUpgradesToIgnore[$i], $g_sProfileConfigPath, "Auto Upgrade", "ChkUpgradesToIgnore[" & $i & "]", $g_iChkUpgradesToIgnore[$i], "int")
 Next
 For $i = 0 To 2
@@ -5876,6 +5884,11 @@ IniReadS($g_aiAttackScrDroplineEdge[$DB], $g_sProfileConfigPath, "attack", "Drop
 IniReadS($g_sAttackScrScriptName[$DB], $g_sProfileConfigPath, "attack", "ScriptDB", "Barch four fingers")
 IniReadS($g_aiAttackUseWardenMode[$DB], $g_sProfileConfigPath, "attack", "DBAtkUseWardenMode", 2, "int")
 IniReadS($g_aiAttackUseSiege[$DB], $g_sProfileConfigPath, "attack", "DBAtkUseSiege", 5, "int")
+IniReadS($g_bUseSmartFarmAndRandomDeploy, $g_sProfileConfigPath, "SmartFarm", "UseSmartFarmAndRandomDeploy", True, "Bool")
+IniReadS($g_bUseSmartFarmAndRandomQuant, $g_sProfileConfigPath, "SmartFarm", "UseSmartFarmAndRandomQuant", False, "Bool")
+IniReadS($g_bSmartFarmSpellsEnable, $g_sProfileConfigPath, "SmartFarm", "SmartFarmSpellsEnable", False, "Bool")
+IniReadS($g_bUseSmartFarmRedLine, $g_sProfileConfigPath, "SmartFarm", "UseSmartFarmRedLine", False, "Bool")
+IniReadS($g_iSmartFarmSpellsHowManySides, $g_sProfileConfigPath, "SmartFarm", "SmartFarmSpellsHowManySides", 1, "int")
 IniReadS($g_iTxtInsidePercentage, $g_sProfileConfigPath, "SmartFarm", "InsidePercentage", 65, "int")
 IniReadS($g_iTxtOutsidePercentage, $g_sProfileConfigPath, "SmartFarm", "OutsidePercentage", 80, "int")
 IniReadS($g_bDebugSmartFarm, $g_sProfileConfigPath, "SmartFarm", "DebugSmartFarm", False, "Bool")
@@ -6207,7 +6220,7 @@ Next
 IniReadS($g_bChkUpgradeMachine, $g_sProfileConfigPath, "other", "ChkUpgradeMachine", False, "Bool")
 IniReadS($g_bChkBBUpgradeWalls, $g_sProfileConfigPath, "other", "ChkBBUpgradeWalls", False, "Bool")
 IniReadS($g_iCmbBBWallLevel, $g_sProfileConfigPath, "other", "CmbBBWallLevel", 10, "int")
-IniReadS($g_iTxtBBWallNumber, $g_sProfileConfigPath, "other", "BBWallNumber", 0, "Int")
+IniReadS($g_iBBWallNumber, $g_sProfileConfigPath, "other", "BBWallNumber", 0, "Int")
 IniReadS($g_bChkBuilderAttack, $g_sProfileConfigPath, "BuilderBase", "BuilderAttack", False, "Bool")
 IniReadS($g_bChkBBStopAt3, $g_sProfileConfigPath, "BuilderBase", "BBStopAt3", False, "Bool")
 IniReadS($g_bChkBBTrophiesRange, $g_sProfileConfigPath, "BuilderBase", "BBTrophiesRange", False, "Bool")
@@ -6246,7 +6259,7 @@ IniReadS($g_iDeployWave[1], $g_sProfileConfigPath, "MiscTab", "DeployWave1", $g_
 IniReadS($g_iDeployWave[2], $g_sProfileConfigPath, "MiscTab", "DeployWave2", $g_iDeployWave[2], "Int")
 IniReadS($g_bMaxSidesSF, $g_sProfileConfigPath, "MaxSidesSF", "Enable", $g_bMaxSidesSF, "Bool")
 IniReadS($g_iCmbMaxSidesSF, $g_sProfileConfigPath, "MaxSidesSF", "CmbMaxSidesSF", $g_iCmbMaxSidesSF, "Int")
-IniReadS($g_bRandomDPSFAL, $g_sProfileConfigPath, "RandomDPSFAL", "Enable", $g_bRandomDPSFAL, "Bool")
+IniReadS($g_bUseSmartFarmAndRandomDeploy, $g_sProfileConfigPath, "UseSmartFarmAndRandomDeploy", "Enable", $g_bUseSmartFarmAndRandomDeploy, "Bool")
 IniReadS($g_bChkEnableRandom[0], $g_sProfileConfigPath, "MiscTab", "ChkEnableRandom0", $g_bChkEnableRandom[0], "Bool")
 IniReadS($g_bChkEnableRandom[1], $g_sProfileConfigPath, "MiscTab", "ChkEnableRandom1", $g_bChkEnableRandom[1], "Bool")
 IniReadS($g_bStopForWar, $g_sProfileConfigPath, "war preparation", "Enable", False, "Bool")
@@ -6290,6 +6303,11 @@ IniReadS($g_iTxtReturnTimer, $g_sProfileConfigPath, "search", "ReturnTimer", 5, 
 IniReadS($g_bProtectInLL, $g_sProfileConfigPath, "attack", "ChkProtectInLL", $g_bProtectInLL, "Bool")
 IniReadS($g_bForceProtectLL, $g_sProfileConfigPath, "attack", "ChkForceProtectLL", $g_bForceProtectLL, "Bool")
 IniReadS($g_bNoUpgradeInWar, $g_sProfileConfigPath, "attack", "ChkNoUpgradeInWar", $g_bNoUpgradeInWar, "Bool")
+For $i = 0 To UBound($g_iChkBBUpgradesToIgnore) - 1
+IniReadS($g_iChkBBUpgradesToIgnore[$i], $g_sProfileConfigPath, "other", "chkBBUpgradesToIgnore" & $i, 0, "int")
+Next
+IniReadS($g_bChkBuyGuard, $g_sProfileConfigPath, "attack", "ChkBuyGuard", $g_bChkBuyGuard, "Bool")
+IniReadS($g_bChkColorfulAttackLog, $g_sProfileConfigPath, "attack", "ChkColorfulAttackLog", $g_bChkColorfulAttackLog, "Bool")
 EndFunc
 Func ReadConfig_MOD_SuperXP()
 IniReadS($g_bEnableSuperXP, $g_sProfileConfigPath, "SuperXP", "EnableSuperXP", $g_bEnableSuperXP, "Bool")
@@ -6433,6 +6451,12 @@ For $i = 0 To 1
 IniReadS($g_iacmbPause[$i], $g_sProfileConfigPath, "Bot Humanization", "cmbPause[" & $i & "]", $g_iacmbPause[$i], "int")
 Next
 IniReadS($g_iCmbMaxActionsNumber, $g_sProfileConfigPath, "Bot Humanization", "cmbMaxActionsNumber", $g_iCmbMaxActionsNumber, "int")
+EndFunc
+Func ReadConfig_MOD_SmartMilk()
+IniReadS($g_iMilkStrategyArmy, $g_sProfileConfigPath, "SmartMilk", "MilkStrategyArmy", 0, "int")
+IniReadS($g_bChkMilkForceDeployHeroes, $g_sProfileConfigPath, "SmartMilk", "MilkForceDeployHeroes", False, "Bool")
+IniReadS($g_bChkMilkForceAllTroops, $g_sProfileConfigPath, "SmartMilk", "ChkMilkForceAllTroops", False, "Bool")
+IniReadS($g_bDebugSmartMilk, $g_sProfileConfigPath, "SmartMilk", "DebugSmartMilk", False, "Bool")
 EndFunc
 Global $ResetStats = 0
 Func UpdateStats()

@@ -285,6 +285,8 @@ Func SaveRegularConfig()
 	SaveConfig_MOD_600_35_2()
 	; <><><> Humanization <><><>
 	SaveConfig_MOD_Humanization()
+	; <><><> SmartMilk <><><>
+	SaveConfig_MOD_SmartMilk()
 
 	; <><><><> Attack Plan / Strategies <><><><>
 	; <<< nothing here >>>
@@ -414,9 +416,9 @@ Func SaveConfig_600_6()
 	_Ini_Add("other", "ChkBBSuggestedUpgrades", $g_iChkBBSuggestedUpgrades)
 	_Ini_Add("other", "ChkBBSuggestedUpgradesIgnoreGold", $g_iChkBBSuggestedUpgradesIgnoreGold)
 	_Ini_Add("other", "ChkBBSuggestedUpgradesIgnoreElixir", $g_iChkBBSuggestedUpgradesIgnoreElixir)
-	_Ini_Add("other", "ChkBBSuggestedUpgradesIgnoreHall", $g_iChkBBSuggestedUpgradesIgnoreHall)
-	_Ini_Add("other", "ChkBBSuggestedUpgradesIgnoreWall", $g_iChkBBSuggestedUpgradesIgnoreWall)
-
+;~ 	_Ini_Add("other", "ChkBBSuggestedUpgradesIgnoreHall", $g_iChkBBSuggestedUpgradesIgnoreHall)
+;~ 	_Ini_Add("other", "ChkBBSuggestedUpgradesIgnoreWall", $g_iChkBBSuggestedUpgradesIgnoreWall)
+	
 	_Ini_Add("other", "ChkPlacingNewBuildings", $g_iChkPlacingNewBuildings)
 
 	_Ini_Add("other", "ChkClanGamesAir", $g_bChkClanGamesAir ? 1 : 0)
@@ -606,7 +608,7 @@ Func SaveConfig_auto()
 	ApplyConfig_auto(GetApplyConfigSaveAction())
 	; Auto Upgrade
 	_Ini_Add("Auto Upgrade", "AutoUpgradeEnabled", $g_bAutoUpgradeEnabled)
-	For $i = 0 To 13
+	For $i = 0 To UBound($g_iChkUpgradesToIgnore) - 1 ; Custom Improve - Team AIO Mod++
 		_Ini_Add("Auto Upgrade", "ChkUpgradesToIgnore[" & $i & "]", $g_iChkUpgradesToIgnore[$i])
 	Next
 	For $i = 0 To 2
@@ -924,6 +926,14 @@ Func SaveConfig_600_29_DB_Scripted()
 EndFunc   ;==>SaveConfig_600_29_DB_Scripted
 
 Func SaveConfig_600_29_DB_SmartFarm()
+	#Region - Custom SmartFarm - Team AIO Mod++
+	_Ini_Add("SmartFarm", "UseSmartFarmAndRandomDeploy", $g_bUseSmartFarmAndRandomDeploy)
+	_Ini_Add("SmartFarm", "UseSmartFarmAndRandomQuant", $g_bUseSmartFarmAndRandomQuant)
+	_Ini_Add("SmartFarm", "SmartFarmSpellsEnable", $g_bSmartFarmSpellsEnable)
+	_Ini_Add("SmartFarm", "UseSmartFarmRedLine", $g_bUseSmartFarmRedLine)
+	_Ini_Add("SmartFarm", "SmartFarmSpellsHowManySides", $g_iSmartFarmSpellsHowManySides)
+	#EndRegion - Custom SmartFarm - Team AIO Mod++
+
 	_Ini_Add("SmartFarm", "InsidePercentage", $g_iTxtInsidePercentage)
 	_Ini_Add("SmartFarm", "OutsidePercentage", $g_iTxtOutsidePercentage)
 	_Ini_Add("SmartFarm", "DebugSmartFarm", $g_bDebugSmartFarm)

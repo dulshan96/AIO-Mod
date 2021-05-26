@@ -12,6 +12,21 @@
 ; Link ..........: https://github.com/MyBotRun/MyBot/wiki
 ; Example .......: No
 ; ===============================================================================================================================
+; Lirel Bit
+Global $g_aBBUpgradeResourceCostDuration[3] = ["", "", ""]
+Global $g_iChkBBUpgradesToIgnore[28] = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
+Global $g_hChkBBUpgradesToIgnore[28] = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
+Global $g_sBBUpgradesToIgnore[28] = ["Builder Hall", "Gold Mine", "Elixir Collector", "Gold Storage", _
+									 "Elixir Storage", "Gem Mine", "Clock Tower", "Star Laboratory", "Builder Barracks", _
+									 "Battle Machine", "Cannon", "Double Cannon", "Archer Tower", "Hidden Tesla", "Firecrackers", _
+									 "Crusher", "Guard Post", "Air Bombs", "Multi Mortar", "Roaster", "Giant Cannon", "Mega Tesla", _
+									 "Lava Launcher", "Push Trap", "Spring Trap", "Mega Mine", "Mine", "Wall"]
+Global $g_aBBUpgradeNameLevel
+
+Global $g_bChkColorfulAttackLog = 0, $g_bChkBuyGuard = False
+Global $g_hChkColorfulAttackLog = 0, $g_hChkBuyGuard = 0
+;
+
 #Region - Icn - Team AiO MOD++
 Global Const $g_sLibModIconPath = $g_sLibPath & "\ModLibs\AIOMod.dll" ; Mod icon library - Team AiO MOD++
 ; enumerated Icons 1-based index to IconLibMod
@@ -33,24 +48,24 @@ Global $g_bBadPrepareSearch = False
 
 ; Magic items check.
 Global Const $g_sConstMaxMagicItemsSeconds = 172800 ; 172800 const = 2 days quality check.
-Global $g_sDateAndTimeMagicItems = "" 
+Global $g_sDateAndTimeMagicItems = ""
 
 ; Hero war upgrade exception.
 Global Const $g_sConstHeroWUESeconds = 172800 ; 172800 const = 2 days quality check.
-Global $g_sDateAndTimeHeroWUE = "" 
+Global $g_sDateAndTimeHeroWUE = ""
 
 ; King upgrade time.
 Global Const $g_sConstMaxHeroTime = 864000 ; 864000 const = 10 days quality check.
-Global $g_sDateAndTimeKing = "" 
+Global $g_sDateAndTimeKing = ""
 
 ; Queen upgrade time.
-Global $g_sDateAndTimeQueen = "" 
+Global $g_sDateAndTimeQueen = ""
 
 ; Warden upgrade time.
-Global $g_sDateAndTimeWarden = "" 
+Global $g_sDateAndTimeWarden = ""
 
 ; Champion upgrade time.
-Global $g_sDateAndTimeChampion = "" 
+Global $g_sDateAndTimeChampion = ""
 
 #EndRegion - Dates - Team AIO Mod++
 
@@ -60,23 +75,19 @@ Global $g_bDefensesAlive = False, $g_bDefensesMix = True
 #EndRegion - New DB sys - Team AIO Mod++
 
 #Region - No Upgrade In War - Team AIO Mod++
-Global $g_hChkNoUpgradeInWar = True, $g_bNoUpgradeInWar 
+Global $g_hChkNoUpgradeInWar = True, $g_bNoUpgradeInWar
 #EndRegion - No Upgrade In War - Team AIO Mod++
 
 #Region - Legend trophy protection - Team AIO Mod++
 Global $g_hChkProtectInLL, $g_hChkForceProtectLL, $g_bProtectInLL = True, $g_bForceProtectLL = False
 #EndRegion - Legend trophy protection - Team AIO Mod++
 
-#Region - Randomize points along the line - Team AIO Mod++
-Global $g_hChkRandomDPSFAL, $g_bRandomDPSFAL = True
-#EndRegion - Randomize points along the line - Team AIO Mod++
-
 #Region - Return Home by Time - Team AIO Mod++
 Global $g_hChkReturnTimerEnable = 0, $g_hTxtReturnTimer = 0, $g_bReturnTimerEnable = False, $g_iTxtReturnTimer = 5
 #EndRegion - Return Home by Time - Team AIO Mod++
 
 #Region - Lab Priority System
-Global $g_hChkPriorityLab, $g_hCmbPriorityLab, $g_hLblOnlyUpgrade, $g_hChkPriorityLabTroops, $g_hChkPriorityLabSpells, $g_hChkPriorityLabSieges, _ 
+Global $g_hChkPriorityLab, $g_hCmbPriorityLab, $g_hLblOnlyUpgrade, $g_hChkPriorityLabTroops, $g_hChkPriorityLabSpells, $g_hChkPriorityLabSieges, _
 $g_bPriorityLab, $g_iCmbPriorityLab, $g_bPriorityLabSpells = True, $g_bPriorityLabTroops = True, $g_bPriorityLabSieges = True
 #EndRegion - Lab Priority System
 
@@ -339,9 +350,9 @@ Global $g_iFurtherFromBBDefault = 3
 Global $g_iAvailableAttacksBB = 0, $g_iLastDamage = 0
 Global $g_sTxtRegistrationToken = ""
 
-Global Enum $g_iAirDefense = 0, $g_iCrusher, $g_iGuardPost, $g_iCannon, $g_iBuilderHall, $g_iDeployPoints
-Global $g_aBuilderHallPos = -1, $g_aAirdefensesPos = -1, $g_aCrusherPos = -1, $g_aCannonPos = -1, $g_aGuardPostPos = -1, $g_aDeployPoints, $g_aDeployBestPoints
-Global $g_aOpponentBuildings[6] = [$g_aAirdefensesPos, $g_aCrusherPos, $g_aGuardPostPos, $g_aCannonPos, $g_aBuilderHallPos, $g_aDeployPoints]
+Global $g_aBuilderHallPos = -1, $g_aAirdefensesPos = -1, $g_aCrusherPos = -1, $g_aCannonPos = -1, $g_aGuardPostPos = -1, _
+$g_aAirBombs = -1, $g_aLavaLauncherPos = -1, $g_aRoasterPos = -1, $g_aDeployPoints, $g_aDeployBestPoints
+
 Global $g_aExternalEdges, $g_aBuilderBaseDiamond, $g_aOuterEdges, $g_aBuilderBaseOuterDiamond, $g_aBuilderBaseOuterPolygon, $g_aFinalOuter[4]
 
 ; GUI
@@ -357,10 +368,12 @@ Global $g_sAttackScrScriptNameBB[3] = ["", "", ""]
 Global $g_iBuilderBaseScript = 0
 
 ; Upgrade Troops
-Global $g_bChkUpgradeTroops = False, $g_iCmbBBLaboratory, $g_bChkUpgradeMachine = False
+Global $g_bChkUpgradeTroops = False, $g_bChkUpgradeMachine = False
 
-; Upgrade Walls
-Global $g_bChkBBUpgradeWalls = False, $g_iCmbBBWallLevel, $g_iTxtBBWallNumber = 0
+; BB Upgrade Walls - Team AiO MOD++
+Global Const $g_aWallBBInfoPerLevel[10][4] = [[0, 0, 0, 0], [1, 4000, 20, 2], [2, 10000, 50, 3], [3, 100000, 50, 3], [4, 300000, 75, 4], [5, 800000, 100, 5], [6, 1200000, 120, 6], [7, 2000000, 140, 7], [8, 3000000, 160, 8], [9, 4000000, 180, 9]]
+Global $g_bChkBBUpgradeWalls = False, $g_iCmbBBWallLevel, $g_iBBWallNumber = 0, _ 
+	   $g_bChkBBUpgWallsGold = True, $g_bChkBBUpgWallsElixir = False, $g_bChkBBWallRing = False
 
 ; Troops
 Global Enum $eBBTroopBarbarian, $eBBTroopArcher, $eBBTroopGiant, $eBBTroopMinion, $eBBTroopBomber, $eBBTroopBabyDragon, $eBBTroopCannon, $eBBTroopNight, $eBBTroopDrop, $eBBTroopPekka, $eBBTroopHogG, $eBBTroopMachine, $eBBTroopCount
@@ -411,3 +424,22 @@ Global $g_iAttackTotalBLButtons = -1
 Global $g_aBLButtonsRegion[4] = [10, 570, 450, 55]
 
 Global $g_iDualBarFix = 0
+
+#Region - Custom SmartFarm - Team AIO Mod++
+Global $g_hChkSmartFarmAndRandomDeploy, $g_bUseSmartFarmAndRandomDeploy = True
+Global $g_hChkSmartFarmAndRandomQuant, $g_bUseSmartFarmAndRandomQuant = False
+Global $g_hCmbSmartFarmSpellsHowManySides, $g_hSmartFarmSpellsEnable, $g_iSmartFarmSpellsHowManySides = 2, $g_bSmartFarmSpellsEnable = True
+Global $g_hChkUseSmartFarmRedLine, $g_bUseSmartFarmRedLine = False
+#EndRegion - Custom SmartFarm - Team AIO Mod++
+
+#Region - Misc - Team AIO Mod++
+Global $g_bChkColorfulAttackLog = False, _
+       $g_bChkBuyGuard = False
+	   
+Global $g_hChkColorfulAttackLog = 0, _
+	   $g_hChkBuyGuard = 0
+#EndRegion - Misc - Team AIO Mod++
+
+#Region - SmartMilk
+Global $g_bDebugSmartMilk = False, $g_bChkMilkForceDeployHeroes = False, $g_bChkMilkForceAllTroops = False, $g_iMilkStrategyArmy = 0
+#EndRegion - SmartMilk

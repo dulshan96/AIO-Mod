@@ -17,20 +17,21 @@ Func ApplyConfig_MOD_CustomArmyBB($TypeReadSave)
 	; <><><> CustomArmyBB <><><>
 	Switch $TypeReadSave
 		Case "Read"
-			;GUICtrlSetState($g_hChkBBCustomArmyEnable, $g_bChkBBCustomArmyEnable = 1 ? $GUI_CHECKED : $GUI_UNCHECKED)
-
+			; BB Upgrade Walls - Team AiO MOD++
+			GUICtrlSetState($g_hChkBBUpgradeWalls, $g_bChkBBUpgradeWalls ? $GUI_CHECKED : $GUI_UNCHECKED)
+			_GUICtrlComboBox_SetCurSel($g_hCmbBBWallLevel, $g_iCmbBBWallLevel)
+			GUICtrlSetData($g_hBBWallNumber, $g_iBBWallNumber)
+			GUICtrlSetState($g_hChkBBWallRing, $g_bChkBBWallRing = 1 ? $GUI_CHECKED : $GUI_UNCHECKED)
+			GUICtrlSetState($g_hChkBBUpgWallsGold, $g_bChkBBUpgWallsGold = 1 ? $GUI_CHECKED : $GUI_UNCHECKED)
+			GUICtrlSetState($g_hChkBBUpgWallsElixir, $g_bChkBBUpgWallsElixir = 1 ? $GUI_CHECKED : $GUI_UNCHECKED)
+			ChkBBWalls()
+			cmbBBWall()
+			
 			For $i = 0 To UBound($g_hComboTroopBB) - 1
 				_GUICtrlComboBox_SetCurSel($g_hComboTroopBB[$i], $g_iCmbCampsBB[$i])
 				_GUICtrlSetImage($g_hIcnTroopBB[$i], $g_sLibIconPath, $g_avStarLabTroops[$g_iCmbCampsBB[$i] + 1][4])
 			Next
 
-			; Builder base - Team AiO MOD++
-			GUICtrlSetState($g_hChkUpgradeMachine, $g_bChkUpgradeMachine ? $GUI_CHECKED : $GUI_UNCHECKED)
-			GUICtrlSetState($g_hChkBBUpgradeWalls, $g_bChkBBUpgradeWalls ? $GUI_CHECKED : $GUI_UNCHECKED)
-			ChkBBWalls()
-			_GUICtrlComboBox_SetCurSel($g_hCmbBBWallLevel, $g_iCmbBBWallLevel)
-			cmbBBWall()
-			GUICtrlSetData($g_hTxtBBWallNumber, $g_iTxtBBWallNumber)
 			GUICtrlSetState($g_hChkPlacingNewBuildings, $g_iChkPlacingNewBuildings = 1 ? $GUI_CHECKED : $GUI_UNCHECKED)
 			chkActivateBBSuggestedUpgrades()
 			chkActivateBBSuggestedUpgradesGold()
@@ -70,17 +71,18 @@ Func ApplyConfig_MOD_CustomArmyBB($TypeReadSave)
 			ChkBBAttackLoops()
 			
 		Case "Save"
-			;$g_bChkBBCustomArmyEnable = (GUICtrlRead($g_hChkBBCustomArmyEnable) = $GUI_CHECKED) ? 1 : 0
-
+			; BB Upgrade Walls - Team AiO MOD++
+			$g_bChkBBUpgradeWalls = (GUICtrlRead($g_hChkBBUpgradeWalls) = $GUI_CHECKED)
+			$g_iCmbBBWallLevel = _GUICtrlComboBox_GetCurSel($g_hCmbBBWallLevel)
+			$g_iBBWallNumber = Int(GUICtrlRead($g_hBBWallNumber))
+			$g_bChkBBWallRing = (GUICtrlRead($g_hChkBBWallRing) = $GUI_CHECKED)
+			$g_bChkBBUpgWallsGold = (GUICtrlRead($g_hChkBBUpgWallsGold) = $GUI_CHECKED)
+			$g_bChkBBUpgWallsElixir = (GUICtrlRead($g_hChkBBUpgWallsElixir) = $GUI_CHECKED)
+			
 			For $i = 0 To UBound($g_hComboTroopBB) - 1
 				$g_iCmbCampsBB[$i] = _GUICtrlComboBox_GetCurSel($g_hComboTroopBB[$i])
 			Next
 
-			; Builder base - Team AiO MOD++
-			$g_bChkUpgradeMachine = (GUICtrlRead($g_hChkUpgradeMachine) = $GUI_CHECKED)
-			$g_bChkBBUpgradeWalls = (GUICtrlRead($g_hChkBBUpgradeWalls) = $GUI_CHECKED)
-			$g_iCmbBBWallLevel = _GUICtrlComboBox_GetCurSel($g_hCmbBBWallLevel)
-			$g_iTxtBBWallNumber = Int(GUICtrlRead($g_hTxtBBWallNumber))
 			$g_iChkPlacingNewBuildings = (GUICtrlRead($g_hChkPlacingNewBuildings) = $GUI_CHECKED) ? 1 : 0
 			$g_bChkBuilderAttack = (GUICtrlRead($g_hChkBuilderAttack) = $GUI_CHECKED) ? 1 : 0
 			$g_bChkBBStopAt3 = (GUICtrlRead($g_hChkBBStopAt3) = $GUI_CHECKED) ? 1 : 0
@@ -147,8 +149,8 @@ Func ApplyConfig_MOD_MiscTab($TypeReadSave)
 			GUICtrlSetState($g_hMaxSidesSF, $g_bMaxSidesSF = (1) ? ($GUI_CHECKED) : ($GUI_UNCHECKED))
 			GUICtrlSetData($g_hCmbMaxSidesSF, $g_iCmbMaxSidesSF)
 
-			; Randomize points along the line
-			GUICtrlSetState($g_hChkRandomDPSFAL, $g_bRandomDPSFAL = (1) ? ($GUI_CHECKED) : ($GUI_UNCHECKED))
+			; Custom SmartFarm
+			GUICtrlSetState($g_hChkSmartFarmAndRandomDeploy, $g_bUseSmartFarmAndRandomDeploy = (1) ? ($GUI_CHECKED) : ($GUI_UNCHECKED))
 
 			; War Preparation
 			GUICtrlSetState($g_hChkStopForWar, $g_bStopForWar ? $GUI_CHECKED : $GUI_UNCHECKED)
@@ -218,6 +220,20 @@ Func ApplyConfig_MOD_MiscTab($TypeReadSave)
 			ChkProtectInLL()
 			#EndRegion - Legend trophy protection - Team AIO Mod++
 
+			#Region - Custom Improve - Team AIO Mod++
+			For $i = 0 To UBound($g_iChkBBUpgradesToIgnore) - 1
+				GUICtrlSetState($g_hChkBBUpgradesToIgnore[$i], $g_iChkBBUpgradesToIgnore[$i] = 1 ? $GUI_CHECKED : $GUI_UNCHECKED)
+			Next
+			chkBBUpgradesToIgnore()
+			#EndRegion - Custom Improve - Team AIO Mod++
+
+			#Region - Buy Guard - Team AIO Mod++
+			GUICtrlSetState($g_hChkBuyGuard, $g_bChkBuyGuard ? $GUI_CHECKED : $GUI_UNCHECKED)
+			#EndRegion - Buy Guard - Team AIO Mod++
+
+			#Region - Colorful attack log - Team AIO Mod++
+			GUICtrlSetState($g_hChkColorfulAttackLog, $g_bChkColorfulAttackLog ? $GUI_CHECKED : $GUI_UNCHECKED)
+			#EndRegion - Colorful attack log - Team AIO Mod++
 
 			chkMaxSidesSF()
 			ChkReqCCAlways()
@@ -268,8 +284,8 @@ Func ApplyConfig_MOD_MiscTab($TypeReadSave)
 			$g_bMaxSidesSF = (GUICtrlRead($g_hMaxSidesSF) = $GUI_CHECKED) ? 1 : 0
 			$g_iCmbMaxSidesSF = Int(GUICtrlRead($g_hCmbMaxSidesSF))
 
-			; Randomize points along the line
-			$g_bRandomDPSFAL = (GUICtrlRead($g_hChkRandomDPSFAL) = $GUI_CHECKED) ? 1 : 0
+			; Custom SmartFarm
+			$g_bUseSmartFarmAndRandomDeploy = (GUICtrlRead($g_hChkSmartFarmAndRandomDeploy) = $GUI_CHECKED) ? 1 : 0
 
 			; War Preparation
 			$g_bStopForWar = GUICtrlRead($g_hChkStopForWar) = $GUI_CHECKED
@@ -336,6 +352,20 @@ Func ApplyConfig_MOD_MiscTab($TypeReadSave)
 			#Region - No Upgrade In War - Team AIO Mod++
 			$g_bNoUpgradeInWar = (GUICtrlRead($g_hChkNoUpgradeInWar) = $GUI_CHECKED)
 			#EndRegion - No Upgrade In War - Team AIO Mod++
+			
+			#Region - Custom Improve - Team AIO Mod++
+			For $i = 0 To UBound($g_iChkBBUpgradesToIgnore) - 1
+				$g_iChkBBUpgradesToIgnore[$i] = GUICtrlRead($g_hChkBBUpgradesToIgnore[$i]) = $GUI_CHECKED ? 1 : 0
+			Next
+			#EndRegion - Custom Improve - Team AIO Mod++
+			
+			#Region - Buy Guard - Team AIO Mod++
+			$g_bChkBuyGuard = (GUICtrlRead($g_hChkBuyGuard) = $GUI_CHECKED)
+			#EndRegion - Buy Guard - Team AIO Mod++
+
+			#Region - Colorful attack log - Team AIO Mod++
+			$g_bChkColorfulAttackLog = (GUICtrlRead($g_hChkColorfulAttackLog) = $GUI_CHECKED)
+			#EndRegion - Colorful attack log - Team AIO Mod++
 	EndSwitch
 
 EndFunc   ;==>ApplyConfig_MOD_MiscTab
@@ -723,3 +753,19 @@ Func ApplyConfig_MOD_Humanization($TypeReadSave)
 			; $g_iTxtChallengeMessage = GUICtrlRead($g_hChallengeMessage)
 	EndSwitch
 EndFunc   ;==>ApplyConfig_MOD_Humanization
+
+Func ApplyConfig_MOD_SmartMilk($TypeReadSave)
+	Switch $TypeReadSave
+		Case "Read"
+			_GUICtrlComboBox_SetCurSel($g_hCmbMilkStrategyArmy, $g_iMilkStrategyArmy)
+			GUICtrlSetState($g_hChkMilkForceDeployHeroes, $g_bChkMilkForceDeployHeroes ? $GUI_CHECKED : $GUI_UNCHECKED)
+			GUICtrlSetState($g_hChkMilkForceAllTroops, $g_bChkMilkForceAllTroops ? $GUI_CHECKED : $GUI_UNCHECKED)
+			GUICtrlSetState($g_hChkDebugSmartMilk, $g_bDebugSmartMilk ? $GUI_CHECKED : $GUI_UNCHECKED)
+			_GUICtrlSetImage($g_ahPicMilk, $g_sLibIconPath, $g_hIcnMilk[$g_iMilkStrategyArmy])
+		Case "Save"
+			$g_iMilkStrategyArmy = _GUICtrlComboBox_GetCurSel($g_hCmbMilkStrategyArmy)
+			$g_bChkMilkForceDeployHeroes = (GUICtrlRead($g_hChkMilkForceDeployHeroes) = $GUI_CHECKED)
+			$g_bChkMilkForceAllTroops = (GUICtrlRead($g_hChkMilkForceAllTroops) = $GUI_CHECKED)
+			$g_bDebugSmartMilk = (GUICtrlRead($g_hChkDebugSmartMilk) = $GUI_CHECKED)
+	EndSwitch
+EndFunc   ;==>ApplyConfig_MOD_SmartMilk

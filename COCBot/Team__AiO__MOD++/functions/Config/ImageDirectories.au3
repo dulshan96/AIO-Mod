@@ -87,7 +87,7 @@ Global Const $g_sImgOpponentBuildingsBB = $g_sModImageLocation & "\BuildersBase\
 
 Global Const $g_sImgAttackBtnBB = $g_sModImageLocation & "\BuildersBase\Attack\AttackBtn\"
 Global Const $g_sImgVersusWindow = $g_sModImageLocation & "\BuildersBase\Attack\VersusBattle\Window\"
-Global Const $g_sImgCloudSearch = $g_sModImageLocation & "\BuildersBase\Attack\VersusBattle\Clouds\"
+; Global Const $g_sImgCloudSearch = $g_sModImageLocation & "\BuildersBase\Attack\VersusBattle\Clouds\"
 
 ; Report Window : Victory | Draw | Defeat
 Global Const $g_sImgReportWaitBB = $g_sModImageLocation & "\BuildersBase\Attack\VersusBattle\Report\Waiting\"
@@ -123,6 +123,9 @@ Global $g_sECollectorDMatB = $g_sBaseDMatchingPathB & "\deadbase\Elixir\"
 
 ; DPBB !
 Global Const $g_sBundleDeployPointsBBD = $g_sBaseDMatchingPathB & "\DPBB\"
+
+; DPSM !
+Global Const $g_sBundleDeployPointsSMD = $g_sBaseDMatchingPathB & "\DPSM\"
 
 ; Heroes !
 ; Global Const $g_sBundleHeroesUbiKing = $g_sBaseDMatchingPathB & "\Heroes\King\"
@@ -171,3 +174,9 @@ Global $g_sASUpgradeResourcesRedDOCRPath = $g_sBaseDOCRPathB & "\UpgradeResource
 
 ; Magic items.
 Global $g_sASMagicItemsDOCRPath = $g_sBaseDOCRPathB & "\MagicItems\"
+
+; EndTime.
+Global $g_sASBattleEndsDOCRPath = $g_sBaseDOCRPathB & "\BattleEnds\"
+
+; Gems
+Global $g_sASGemsSDOCRPath = $g_sBaseDOCRPathB & "\GemsS\"

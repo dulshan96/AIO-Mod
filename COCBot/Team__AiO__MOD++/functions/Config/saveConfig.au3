@@ -22,19 +22,25 @@ Func SaveConfig_MOD_CustomArmyBB()
 		_Ini_Add("BBCustomArmy", "ComboTroopBB" & $i, $g_iCmbCampsBB[$i])
 	Next
 
-	; Builder base - Team AiO MOD++
-	_Ini_Add("other", "ChkUpgradeMachine", $g_bChkUpgradeMachine ? 1 : 0)
-	_Ini_Add("other", "ChkPlacingNewBuildings", $g_iChkPlacingNewBuildings)
+	; BB Upgrade Walls - Team AiO MOD++
 	_Ini_Add("other", "ChkBBUpgradeWalls", $g_bChkBBUpgradeWalls ? 1 : 0)
 	_Ini_Add("other", "CmbBBWallLevel", $g_iCmbBBWallLevel)
-	_Ini_Add("other", "BBWallNumber", $g_iTxtBBWallNumber)
+	_Ini_Add("other", "BBWallNumber", $g_iBBWallNumber)
+	_Ini_Add("other", "ChkBBWallRing", $g_bChkBBWallRing ? 1 : 0)
+	_Ini_Add("other", "ChkBBUpgWallsGold", $g_bChkBBUpgWallsGold ? 1 : 0)
+	_Ini_Add("other", "ChkBBUpgWallsElixir", $g_bChkBBUpgWallsElixir ? 1 : 0)
+
+	For $i = 0 To 2
+		_Ini_Add("BuilderBase", "ScriptBB" & $i, $g_sAttackScrScriptNameBB[$i])
+	Next
+	
+	_Ini_Add("other", "ChkUpgradeMachine", $g_bChkUpgradeMachine ? 1 : 0)
+	_Ini_Add("other", "ChkPlacingNewBuildings", $g_iChkPlacingNewBuildings)
 	_Ini_Add("BuilderBase", "BuilderAttack", $g_bChkBuilderAttack ? 1 : 0)
 	_Ini_Add("BuilderBase", "BBStopAt3", $g_bChkBBStopAt3 ? 1 : 0)
 	_Ini_Add("BuilderBase", "BBTrophiesRange", $g_bChkBBTrophiesRange ? 1 : 0)
 	_Ini_Add("BuilderBase", "BBRandomAttack", $g_bChkBBCustomAttack ? 1 : 0)
-	For $i = 0 To 2
-		_Ini_Add("BuilderBase", "ScriptBB" & $i, $g_sAttackScrScriptNameBB[$i])
-	Next
+	
 	_Ini_Add("BuilderBase", "BBDropTrophiesMin", $g_iTxtBBDropTrophiesMin)
 	_Ini_Add("BuilderBase", "BBDropTrophiesMax", $g_iTxtBBDropTrophiesMax)
 	_Ini_Add("BuilderBase", "BBArmy1", $g_iCmbBBArmy1)
@@ -95,8 +101,8 @@ Func SaveConfig_MOD_MiscTab()
 	_Ini_Add("MaxSidesSF", "Enable", $g_bMaxSidesSF ? 1 : 0)
 	_Ini_Add("MaxSidesSF", "CmbMaxSidesSF", $g_iCmbMaxSidesSF)
 
-	; Randomize points along the line
-	_Ini_Add("RandomDPSFAL", "Enable", $g_bRandomDPSFAL ? 1 : 0)
+	; Custom SmartFarm
+	_Ini_Add("UseSmartFarmAndRandomDeploy", "Enable", $g_bUseSmartFarmAndRandomDeploy ? 1 : 0)
 
 	; Village / Misc - War Preparation (Demen)
 	_Ini_Add("war preparation", "Enable", $g_bStopForWar ? 1 : 0)
@@ -162,6 +168,20 @@ Func SaveConfig_MOD_MiscTab()
 	#Region - No Upgrade In War - Team AIO Mod++
 	_Ini_Add("attack", "ChkNoUpgradeInWar", $g_bNoUpgradeInWar ? 1 : 0)
 	#EndRegion - No Upgrade In War - Team AIO Mod++
+	
+	#Region - Custom Improve - Team AIO Mod++
+	For $i = 0 To UBound($g_iChkBBUpgradesToIgnore) - 1
+		_Ini_Add("other", "chkBBUpgradesToIgnore" & $i, $g_iChkBBUpgradesToIgnore[$i])
+	Next
+	#EndRegion - Custom Improve - Team AIO Mod++
+
+	#Region - Buy Guard - Team AIO Mod++
+	_Ini_Add("attack", "ChkBuyGuard", $g_bChkBuyGuard ? 1 : 0)
+	#EndRegion - Buy Guard - Team AIO Mod++
+
+	#Region - Colorful attack log - Team AIO Mod++
+	_Ini_Add("attack", "ChkColorfulAttackLog", $g_bChkColorfulAttackLog ? 1 : 0)
+	#EndRegion - Colorful attack log - Team AIO Mod++
 
 EndFunc   ;==>SaveConfig_MOD_MiscTab
 
@@ -361,3 +381,10 @@ Func SaveConfig_MOD_Humanization()
 	_Ini_Add("Bot Humanization", "cmbMaxActionsNumber", _GUICtrlComboBox_GetCurSel($g_hCmbMaxActionsNumber))
 	_Ini_Add("Bot Humanization", "challengeMessage", GUICtrlRead($g_hChallengeMessage))
 EndFunc   ;==>SaveConfig_MOD_Humanization
+
+Func SaveConfig_MOD_SmartMilk()
+	_Ini_Add("SmartMilk", "MilkStrategyArmy", $g_iMilkStrategyArmy)
+	_Ini_Add("SmartMilk", "MilkForceDeployHeroes", $g_bChkMilkForceDeployHeroes)
+	_Ini_Add("SmartMilk", "ChkMilkForceAllTroops", $g_bChkMilkForceAllTroops)
+	_Ini_Add("SmartMilk", "DebugSmartMilk", $g_bDebugSmartMilk)
+EndFunc   ;==>SaveConfig_MOD_SmartMilk
